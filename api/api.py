@@ -40,6 +40,8 @@ def get_results():
     model_name = request.args.get("modelFilename")
     domain = request.args.get("domain")
 
+    result = "hello"
+
     print(domain)
     print("size: ", size)
 
@@ -56,6 +58,9 @@ def get_results():
 
     results = {
         "classification": result,
+        # "imageName": image_name,
+        # "modelInputFeatureSize": size,
+        # "url": url
     }
 
     response = jsonify(results)

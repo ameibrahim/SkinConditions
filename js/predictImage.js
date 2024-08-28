@@ -68,7 +68,7 @@ async function startPrediction(){
 
         let params = createParamatersFrom(parameters);
 
-        console.log("params: ", params);
+        console.log("params to save to database: ", params);
 
         await uploadPredictionToDatabase(params);
         closePopup(".loader-view.predict-loader");
@@ -91,9 +91,11 @@ function getResultsForTick(params) {
 
     return new Promise( async (resolve, reject) => {
 
-        let hostname = isProjectRunningLocally() ? "127.0.0.1:5001" : "165.22.182.47:5001";
+        let hostname = isProjectRunningLocally() ? "127.0.0.1:5000" : "165.22.182.47:5001";
         console.log("hostname: " , hostname);
         let url = `http://${hostname}/predict/?${params}`
+
+        // http://127.0.0.1:5000/predict/?imageName=test6.jpeg&&modelInputFeatureSize=128&&modelFilename=cnnmodel.keras&&domain=localhost:8888
 
         // http://165.22.182.47:8033/predict/?imageName=1717389419.jpg&&modelFilename=VGG16-VARA01b-32x32-EP15-ACCU99-02-06-2024.keras&&modelInputFeatureSize=32
 

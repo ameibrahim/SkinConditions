@@ -38,7 +38,7 @@
 
             <div class="stretchxy-container">
                 <div class="predict-button-container">
-                    <div class="button" onclick="handlePredictContainerView()">Perform Tick Prediction</div>
+                    <div class="button" onclick="handlePredictContainerView()">Perform Skin Disease Prediction</div>
                 </div>
             </div>
         </div>
