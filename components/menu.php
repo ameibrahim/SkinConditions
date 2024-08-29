@@ -17,13 +17,13 @@
         </div>
         <div class="text">Predict</div>
     </a>
-
+<!-- 
     <a class="navigation-item" href="pastpredictions.php">
         <div class="image">
             <img src="assets/icons/layers.svg" alt="">
         </div>
         <div class="text">Past Predictions</div>
-    </a>
+    </a> -->
 
     <a class="navigation-item" href="models.php">
         <div class="image">

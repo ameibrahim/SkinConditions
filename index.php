@@ -24,7 +24,7 @@
             <div class="button" onclick="handlePredictContainerView()">Perform Skin Disease Prediction</div>
         </div>
 
-        <div class="mini-section">
+        <!-- <div class="mini-section">
 
             <div class="mini-section-header">
                 <h2>Recent Predictions</h2>
@@ -37,7 +37,7 @@
 
             <div class="past-predictions-container">
             </div>
-        </div>
+        </div> -->
 
         <div class="mini-section">
 
@@ -61,7 +61,7 @@
     <script>
 
         renderModelAccuracies();
-        renderPastPredictions();
+        // renderPastPredictions();
 
         async function renderModelAccuracies(){
 
