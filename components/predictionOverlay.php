@@ -1,4 +1,4 @@
-<script src="js/modelChoice.js" defer></script>
+<script src="js/modelChoice.js?2" defer></script>
 
 <div class="overlay prediction-overlay">
     <div class="popup prediction-popup">
