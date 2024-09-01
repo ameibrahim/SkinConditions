@@ -1,9 +1,9 @@
 // will be in a different file.
 let currentChosenModel = {
     id: "jsjfirwg934",
-    filename: "cnnmodel.keras",
+    filename: "model.pkl",
     featureInputSize: "128",
-    accuracy: "30"
+    accuracy: "80"
 }; // get from database settings
 
 function getCurrentModel(){
