@@ -1,56 +1,36 @@
-import cv2
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing import image
+import tensorflow as tf
 import numpy as np
-from skimage.feature import local_binary_pattern
-import joblib
+from PIL import Image
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
 from io import BytesIO
-from flask import Flask, request, jsonify
-from PIL import Image
 
-def extract_lbp_features(image, P=8, R=1):
-    """
-    Extract Local Binary Patterns (LBP) features from an image.
-    :param image: Input grayscale image.
-    :param P: Number of circularly placed pixels.
-    :param R: Radius of the circle.
-    :return: LBP feature vector.
-    """
-    lbp = local_binary_pattern(image, P, R, method='uniform')
-    (hist, _) = np.histogram(lbp.ravel(), bins=np.arange(0, P + 3), range=(0, P + 2))
-    hist = hist.astype('float')
-    hist /= (hist.sum() + 1e-6)  # Normalize histogram
-    return hist
 
-def predict_single_image(image, model, class_names):
-    """
-    Predict the class of a single image using the trained classifier.
-    :param image: PIL Image object.
-    :param model: A tuple containing the trained classifier and scaler.
-    :param class_names: List of class names.
-    :return: Predicted class name.
-    """
-    classifier, scaler = model
+def preprocess_image(_image, size):
+    _image = _image.convert("RGB")
+    img = _image.resize((size,size), Image.Resampling.LANCZOS)
+    img_array = image.img_to_array(img)
+    img_array = np.expand_dims(img_array, axis=0)
+    # img_array /= 255.0
+    return img_array
 
-    # Convert PIL Image to a grayscale numpy array
-    image = image.convert('L')
-    image_np = np.array(image)
+def predictWithImage(_image, model_name, size):
+    loaded_model = load_model(model_name)
+    return predict_image(loaded_model, _image, size)
 
-    # Extract LBP features
-    lbp_features = extract_lbp_features(image_np)
-    lbp_features = scaler.transform([lbp_features])  # Scale features
+def predict_image(model, _image, size):
+    preprocessed_image = preprocess_image(_image, size)
+    print(preprocessed_image.shape)
 
-    # Predict the class
-    prediction = classifier.predict(lbp_features)
-    print(prediction)
-    predicted_class = class_names[prediction[0]]
-    
+    prediction = model.predict(preprocessed_image)
+    score = tf.nn.softmax(prediction[0])
+    class_labels = ['acne', 'chickenpox', 'monkeypox', 'normal' ,'non-skin']
+    predicted_class = class_labels[np.argmax(score)]
     return predicted_class
-
-# Load the model (classifier and scaler)
-model = joblib.load("../models/model.pkl")
-class_names = ['acne', 'chickenpox', 'normal', 'monkeypox']
-
+    
 application = Flask(__name__)
 CORS(application)
 
@@ -62,6 +42,8 @@ def get_results():
     model_name = request.args.get("modelFilename")
     domain = request.args.get("domain")
 
+    result = "hello"
+
     print(domain)
     print("size: ", size)
 
@@ -70,14 +52,17 @@ def get_results():
     url = f"http://{domain}/uploads/" + image_name
     
     response = requests.get(url)
-    image = Image.open(BytesIO(response.content))
+    img = Image.open(BytesIO(response.content))
 
     model_name = "../models/" + model_name
 
-    result = predict_single_image(image, model, class_names)
+    result = predictWithImage(img, model_name, size)
 
     results = {
-        "classification": result
+        "classification": result,
+        # "imageName": image_name,
+        # "modelInputFeatureSize": size,
+        # "url": url
     }
 
     response = jsonify(results)
