@@ -26,7 +26,7 @@ async function startPrediction(){
 
     const selectedImage = globalCache.get("selectedImageForPrediction");
     const hasImageBeenSelected = globalCache.get("hasImageBeenSelected");
-    const { id: modelID, filename: modelFilename, featureInputSize: modelInputFeatureSize } = getCurrentModel();
+    const { id: modelID, filename: modelFilename, featureInputSize: modelInputFeatureSize } = currentChosenModel;
 
     if (!hasImageBeenSelected) {
         //TODO:  showSelectImageToast();

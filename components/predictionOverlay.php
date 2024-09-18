@@ -18,7 +18,7 @@
 
             <div class="chosen-model-wrapper">
                 <p>Predicting with:</p>
-                <div id="chosenModelWrapperTag" class="tag" onclick="openPopup('.model-choice-overlay')">VGG16_VARA00z_128x128_EP30_ACCU99.56_24-06-2024.keras</div>
+                <div id="chosenModelWrapperTag" class="tag" onclick="openPopup('.model-choice-overlay')"></div>
             </div>
 
             <label for="image-predict" class="image-upload-wrapper">

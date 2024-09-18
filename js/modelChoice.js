@@ -1,13 +1,23 @@
-// will be in a different file.
-let currentChosenModel = {
-    id: "jsjfirwg934",
-    filename: "model.pkl",
-    featureInputSize: "128",
-    accuracy: "80"
-}; // get from database settings
+let currentChosenModel
 
-function getCurrentModel(){
-    return currentChosenModel;
+(async () => {
+    currentChosenModel = await getCurrentModel();
+    let tag = document.querySelector("#chosenModelWrapperTag");
+    tag.textContent = currentChosenModel.filename;
+})()
+
+async function getCurrentModel(){
+
+    const result = await AJAXCall({
+        phpFilePath: "/include/getCurrentModel.php",
+        rejectMessage: "fetching current model failed",
+        type: "fetch",
+        params: ""
+    });
+
+    console.log("chosen model: ", result);
+
+    return result[0];
 }
 
 let originalChosenModel = { ... currentChosenModel };
