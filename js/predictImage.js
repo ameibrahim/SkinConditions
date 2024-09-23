@@ -91,9 +91,9 @@ function getResultsForTick(params) {
 
     return new Promise( async (resolve, reject) => {
 
-        let hostname = isProjectRunningLocally() ? "127.0.0.1:5000" : "165.22.182.47:5001";
+        let hostname = isProjectRunningLocally() ? "127.0.0.1:8001" : "skinapi.aiiot.live";
         console.log("hostname: " , hostname);
-        let url = `http://${hostname}/predict/?${params}`
+        let url = `https://${hostname}/predict/?${params}`
 
         // http://127.0.0.1:5000/predict/?imageName=test6.jpeg&&modelInputFeatureSize=128&&modelFilename=cnnmodel.keras&&domain=localhost:8888
 

@@ -47,7 +47,7 @@ def get_results():
 
     size = int(size)
 
-    url = f"http://{domain}/uploads/" + image_name
+    url = f"s://{domain}/uploads/" + image_name
     
     response = requests.get(url)
     img = Image.open(BytesIO(response.content))
