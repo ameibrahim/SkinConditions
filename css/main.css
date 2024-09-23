@@ -392,3 +392,44 @@ h2 {
     padding: 20px;
     line-height: calc(1em + 10px);
 }
+
+@media only screen and (max-width: 900px) {
+
+    .overlay.prediction-view-overlay {
+        height: unset;
+    }
+
+    .popup.prediction-view-popup{
+        margin: 50px;
+        min-width: unset;
+    }
+
+    .popup-body.prediction-view-body {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 200px 1fr;
+        padding: 0px;
+        position: relative;
+        grid-gap: 0px;
+    }
+
+    .image-view-wrapper{
+        height: 100%;
+        width: 100%;
+    }
+
+    .popup.prediction-popup {
+        min-width: unset;
+        width: calc(100% - 100px);
+        min-height: unset;
+    }
+
+    .image-upload-wrapper{
+        width: 100%;
+    }
+
+    .button{
+        width: 200px;
+        font-size: 0.6em;
+    }
+}

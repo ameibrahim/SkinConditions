@@ -75,7 +75,7 @@ async function startPrediction(){
         closePopup(".overlay.prediction-overlay");
 
         // await renderPastPredictions();
-        await handlePredictionReview({ ...parameters, ...getCurrentModel() });
+        await handlePredictionReview({ ...parameters, ...currentChosenModel });
 
     }catch(error){
         console.log(error);
@@ -91,7 +91,8 @@ function getResultsForTick(params) {
 
     return new Promise( async (resolve, reject) => {
 
-        let hostname = isProjectRunningLocally() ? "127.0.0.1:8001" : "skinapi.aiiot.live";
+        // let hostname = isProjectRunningLocally() ? "127.0.0.1:8001" : "skinapi.aiiot.live";
+        let hostname = "skinapi.aiiot.live";
         console.log("hostname: " , hostname);
         let url = `https://${hostname}/predict/?${params}`
 
