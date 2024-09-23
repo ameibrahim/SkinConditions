@@ -30,7 +30,7 @@
                 <ol>
                     <li>Click the <highlight>Perform Skin Disease Prediction</highlight> button</li>
                     <li>Confirm the model you'd like to predict with. You may change models anytime you are predicting. Model settings will be saved after reselection.</li>
-                    <li>Select or take an <highlight>image</highlight> from your device.</li>
+                    <li>Click to select or take an <highlight>image</highlight> from your device.</li>
                     <li>Click the <highlight>start prediction</highlight>button to start the model and predict the image.</li>
                     <li>Wait a couple of seconds for the model to predict. The popup will close automatically and open a new result popup.</li>
                 </ol>

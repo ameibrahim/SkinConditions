@@ -23,7 +23,7 @@
 
             <label for="image-predict" class="image-upload-wrapper">
                 <div class="select-image">
-                    select or take an image to predict
+                    click here to select or take an image to predict
                 </div>
                 <img src class="image-predict-chosen-preview" alt="">
                 <input style="display:none;" type="file" id="image-predict" accept="image/*" onchange="handlePredictingImageChange(event)">
