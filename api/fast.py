@@ -25,7 +25,7 @@ def predict_image(model, _image, size):
 
     prediction = model.predict(preprocessed_image)
     score = tf.nn.softmax(prediction[0])
-    class_labels = ['acne', 'chickenpox', 'monkeypox', 'normal', 'non-skin']
+    class_labels = ['acne', 'chickenpox', 'monkeypox', 'non-skin', 'normal']
     predicted_class = class_labels[np.argmax(score)]
     return predicted_class
 
