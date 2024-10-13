@@ -25,9 +25,16 @@ def predict_image(model, _image, size):
 
     prediction = model.predict(preprocessed_image)
     score = tf.nn.softmax(prediction[0])
-    class_labels = ['acne', 'chickenpox', 'monkeypox', 'non-skin', 'normal']
-    predicted_class = class_labels[np.argmax(score)]
+
+    predicted_class = ''
+
+    if np.max(score* 100)<40 :
+        predicted_class = 'Could not be processed'
+    else:
+        class_labels = ['acne', 'chickenpox', 'monkeypox', 'non-skin', 'normal']
+        predicted_class = class_labels[np.argmax(score)]
     return predicted_class
+
 
 # Create FastAPI instance
 application = FastAPI()
