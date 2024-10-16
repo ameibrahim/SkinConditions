@@ -9,7 +9,15 @@ from io import BytesIO
 
 application = Flask(__name__)
 
-@application.route('/predict', methods=['POST'])
+@application.route('/hello', methods=['POST', 'GET'])
+def hello():
+    results = {
+        "classification": "result",
+    }
+    return jsonify(results)
+
+
+@application.route('/predict', methods=['POST', 'GET'])
 async def get_results(
     imageName: str,
     modelInputFeatureSize: int,
