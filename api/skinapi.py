@@ -56,6 +56,3 @@ def predict_image(model, _image, size):
         class_labels = ['acne', 'chickenpox', 'monkeypox', 'non-skin', 'normal']
         predicted_class = class_labels[np.argmax(score)]
     return predicted_class
-
-if __name__ == '__main__':
-    application.run()
