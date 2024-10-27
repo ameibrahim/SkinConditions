@@ -32,12 +32,12 @@
         <div class="text">Models</div>
     </a>
 
-    <a class="navigation-item" href="knowledgebase.php">
+    <!-- <a class="navigation-item" href="knowledgebase.php">
         <div class="image">
             <img src="assets/icons/book-open.svg" alt="">
         </div>
         <div class="text">Knowledgebase</div>
-    </a>
+    </a> -->
 
     <a class="navigation-item" href="collaborators.php">
         <div class="image">
