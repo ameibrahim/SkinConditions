@@ -72,44 +72,43 @@ function loadImage(image, outputElement) {
     }
 }
 
-async function uploadFile(file, progressElement = null, scriptPath = "../include/upload.php"){
-
-    if(!file){
+async function uploadFile(file, progressElement = null, scriptPath = "../include/upload.php") {
+    if (!file) {
         return false;
     }
 
     return new Promise((resolve, reject) => {
-
         let myFormData = new FormData();
         myFormData.append("file", file);
 
         let http = new XMLHttpRequest();
         http.open("POST", scriptPath, true);
 
-        progressElement && http.upload.addEventListener("progress", (event) => {
-            let percent = (event.loaded / event.total ) * 100;
-            progressElement.style.width = Math.round(percent) + "%";
-        })
+        if (progressElement) {
+            http.upload.addEventListener("progress", (event) => {
+                let percent = (event.loaded / event.total) * 100;
+                progressElement.style.width = Math.round(percent) + "%";
+            });
+        }
 
-        http.onload = function(){
-            if(this.status == 200){
-                
-                console.log("name2: ",this.responseText);
-
+        http.onload = function () {
+            console.log("Response from server:", this.responseText); // Log the response
+            if (this.status == 200) {
+                console.log("name2: ", this.responseText);
                 resolve({
                     oldFileName: file.name,
                     newFileName: this.responseText,
                     fileSize: Math.ceil(file.size / 1_000_000 * 100) / 100 + "MB"
                 });
+            } else {
+                reject("error");
             }
-            else{
-               reject("error");
-            }
-        }
+        };
 
         http.send(myFormData);
-    })
+    });
 }
+
 
 async function getUserDetails(){
 
