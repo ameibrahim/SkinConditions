@@ -45,4 +45,11 @@
         </div>
         <div class="text">Collaborators</div>
     </a>
+
+    <a class="navigation-item" href="include/logout.php">
+        <div class="image">
+            <img src="assets/icons/log-out.svg" alt="">
+        </div>
+        <div class="text">Logout</div>
+    </a>
 </div>

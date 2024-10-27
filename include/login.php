@@ -10,14 +10,13 @@
         die("Connection failed: " . mysqli_connect_error());
     }
 
-    $email = $_POST['email'];
+    $username = $_POST['username'];
     $password = $_POST['password'];
 
     $query = "
-    SELECT users.id, users.email, users.role 
+    SELECT id, name
     FROM users 
-    JOIN userDetails ON userDetails.id = users.id
-    WHERE email = '$email' OR userDetails.institutionID = '$email' AND password = '$password'
+    WHERE name = '$username' AND password = '$password'
     ";
 
     $result = mysqli_query($conn,$query);
@@ -28,10 +27,10 @@
     if(mysqli_num_rows($result) == 1){ 
 
         $_SESSION['id'] = $row[0];
-        $_SESSION['role'] = $row[2];
+        $_SESSION['username'] = $row[1];
 
         echo json_encode(
-            array("id" => $row[0],"email" => $row[1], "role" => $row[2], "state" => "success")
+            array("id" => $row[0], "username" => $row[1], "state" => "success")
         );
 
     }

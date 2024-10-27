@@ -1,3 +1,13 @@
+<?php
+
+    session_start();
+    $id = isset($_SESSION['id']);
+    $username = isset($_SESSION['username']);
+
+    if(!$username){ header('location:index.html'); }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

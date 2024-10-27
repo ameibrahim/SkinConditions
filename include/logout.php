@@ -4,3 +4,4 @@
     session_destroy();
 
     echo json_encode(array("state" => "success"));
+    header('location:../index.html');
