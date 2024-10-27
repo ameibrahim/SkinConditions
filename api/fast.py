@@ -7,6 +7,12 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import requests
 from io import BytesIO
+import logging
+from starlette.middleware.base import BaseHTTPMiddleware
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)  # Set to DEBUG for more verbosity
+logger = logging.getLogger(__name__)
 
 def preprocess_image(_image, size):
     _image = _image.convert("RGB")
@@ -21,20 +27,19 @@ def predictWithImage(_image, model_name, size):
 
 def predict_image(model, _image, size):
     preprocessed_image = preprocess_image(_image, size)
-    print(preprocessed_image.shape)
+    logger.info(f"Preprocessed image shape: {preprocessed_image.shape}")
 
     prediction = model.predict(preprocessed_image)
     score = tf.nn.softmax(prediction[0])
 
     predicted_class = ''
 
-    if np.max(score* 100)<40 :
+    if np.max(score * 100) < 40:
         predicted_class = 'Could not be processed'
     else:
         class_labels = ['acne', 'chickenpox', 'monkeypox', 'non-skin', 'normal']
         predicted_class = class_labels[np.argmax(score)]
     return predicted_class
-
 
 # Create FastAPI instance
 application = FastAPI()
@@ -47,6 +52,16 @@ application.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Logging Middleware
+class LoggingMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        logger.info(f"Request: {request.method} {request.url}")
+        response = await call_next(request)
+        logger.info(f"Response: {response.status_code}")
+        return response
+
+application.add_middleware(LoggingMiddleware)
 
 @application.get("/predict/")
 async def get_results(
@@ -71,6 +86,7 @@ async def get_results(
         return results
 
     except Exception as e:
+        logger.error(f"Error occurred while processing: {str(e)}")  # Log the error
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
