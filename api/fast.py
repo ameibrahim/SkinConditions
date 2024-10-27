@@ -72,10 +72,21 @@ async def get_results(
 ):
     try:
         url = f"https://{domain}/uploads/{imageName}"
+        logger.info(f"Fetching image from URL: {url}")
+        
         response = requests.get(url)
         response.raise_for_status()  # Raise an error for bad responses
+        
+        logger.info(f"Response status code: {response.status_code}")
+        logger.info(f"Response content type: {response.headers.get('Content-Type')}")
+        
+        if response.headers.get('Content-Type') != 'image/jpeg':
+            logger.error("Received non-image content")
+            logger.error(f"Response content: {response.content[:100]}")  # Log first 100 bytes
+            raise HTTPException(status_code=400, detail="Received non-image content")
+        
         img = Image.open(BytesIO(response.content))
-
+        
         model_name = "../models/" + modelFilename
         result = predictWithImage(img, model_name, modelInputFeatureSize)
 
@@ -88,6 +99,7 @@ async def get_results(
     except Exception as e:
         logger.error(f"Error occurred while processing: {str(e)}")  # Log the error
         raise HTTPException(status_code=500, detail=str(e))
+
 
 if __name__ == "__main__":
     import uvicorn
