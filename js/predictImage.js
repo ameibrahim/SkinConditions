@@ -93,7 +93,7 @@ function getResultsForTick(params) {
 
         let hostname = isProjectRunningLocally() ? "127.0.0.1:8001" : "skin.api.aiiot.live";
         console.log("hostname: " , hostname);
-        let url = `http://${hostname}/predict/?${params}`
+        let url = `https://${hostname}/predict/?${params}`
 
         // http://127.0.0.1:5000/predict/?imageName=test6.jpeg&&modelInputFeatureSize=128&&modelFilename=cnnmodel.keras&&domain=localhost:8888
 
