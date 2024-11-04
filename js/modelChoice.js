@@ -41,26 +41,6 @@ const predictionModelsBody = document.querySelector(".prediction-models-body");
 
         console.log(groupedModelData);
 
-        // let models = [{
-        //     modelType: "VGG16",
-        //     models: [
-        //         { name: "VGG16-VARA01", id: "a", accuracy: 99.4}, 
-        //         { name: "VGG16-VARA01", id: "b", accuracy: 76.7}
-        //     ]
-        // }, {
-        //     modelType: "ResNet50",
-        //     models: [
-        //         { name: "RSNT50-VARA03", id: "c", accuracy: 99.4}, 
-        //         { name: "RSNT50-VARA04", id: "d", accuracy: 76.7}
-        //     ]
-        // }, {
-        //     modelType: "CNN",
-        //     models: [
-        //         { name: "CNN-VARA03", id: "e", accuracy: 99.4}, 
-        //         { name: "CNN-VARA04", id: "f", accuracy: 76.7}
-        //     ]
-        // }]
-
         groupedModelData.forEach( modelType => {
 
             let modelChoiceContainer = document.createElement("div");

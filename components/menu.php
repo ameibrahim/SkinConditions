@@ -4,7 +4,7 @@
         <img src="assets/logos/neu-logo.png" alt="">
     </div>
 
-    <a class="navigation-item" href="index.php">
+    <a class="navigation-item" href="dashboard.php">
         <div class="image">
             <img src="assets/icons/grid.svg" alt="">
         </div>

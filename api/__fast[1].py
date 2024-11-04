@@ -17,8 +17,7 @@ logger = logging.getLogger(__name__)
 def preprocess_image(_image, size):
     _image = _image.convert("RGB")
     img = _image.resize((size, size), Image.Resampling.LANCZOS)
-    img_array = image.img_to_array(img, dtype=np.uint8)
-    img_array = img_array / 255.0
+    img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)
     return img_array
 
@@ -27,32 +26,20 @@ def predictWithImage(_image, model_name, size):
     return predict_image(loaded_model, _image, size)
 
 def predict_image(model, _image, size):
-
-    labels = {0: 'acne', 1: 'chickenpox', 2: 'monkeypox', 3: 'non-skin', 4: 'normal'}
-
     preprocessed_image = preprocess_image(_image, size)
     logger.info(f"Preprocessed image shape: {preprocessed_image.shape}")
 
     prediction = model.predict(preprocessed_image)
-    max_prob = np.max(prediction[0])
-    predicted_class = labels[np.argmax(prediction[0])]
+    score = tf.nn.softmax(prediction[0])
 
-    classes = {}
+    predicted_class = ''
 
-    for i, j in enumerate(prediction[0]):
-        class_name = labels[i]
-        classes[class_name] = round(j * 100, 2)
-
-    print("max_prob ", max_prob)
-    print("predicted_class ", predicted_class)
-    print("classes ",classes)
-
-    return {
-        max_prob,
-        predicted_class,
-        classes
-    }
-    
+    if np.max(score * 100) < 40:
+        predicted_class = 'Could not be processed'
+    else:
+        class_labels = ['acne', 'chickenpox', 'monkeypox', 'non-skin', 'normal']
+        predicted_class = class_labels[np.argmax(score)]
+    return predicted_class
 
 # Create FastAPI instance
 application = FastAPI()
@@ -84,7 +71,7 @@ async def get_results(
     domain: str
 ):
     try:
-        url = f"http://{domain}/uploads/{imageName}"
+        url = f"https://{domain}/uploads/{imageName}"
         logger.info(f"Fetching image from URL: {url}")
         
         response = requests.get(url)

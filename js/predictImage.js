@@ -91,10 +91,9 @@ function getResultsForTick(params) {
 
     return new Promise( async (resolve, reject) => {
 
-        // let hostname = isProjectRunningLocally() ? "127.0.0.1:8001" : "skinapi.aiiot.live";
-        let hostname = "skin.api.aiiot.live";
+        let hostname = isProjectRunningLocally() ? "127.0.0.1:8001" : "skin.api.aiiot.live";
         console.log("hostname: " , hostname);
-        let url = `https://${hostname}/predict/?${params}`
+        let url = `http://${hostname}/predict/?${params}`
 
         // http://127.0.0.1:5000/predict/?imageName=test6.jpeg&&modelInputFeatureSize=128&&modelFilename=cnnmodel.keras&&domain=localhost:8888
 
@@ -107,6 +106,8 @@ function getResultsForTick(params) {
         let JSONResult = await result.json();
 
         let classification = JSONResult.classification;
+
+        console.log("classification: ", classification);
         resolve(classification)
     })
 }
