@@ -61,7 +61,7 @@ async function startPrediction(){
             userID: "3333434",
             date: getCurrentTimeInJSONFormat(),
             modelID,
-            result: tickPredictionResult,
+            result: tickPredictionResult.predicted_class,
             imageName,
             fileSize
         }
@@ -75,7 +75,7 @@ async function startPrediction(){
         closePopup(".overlay.prediction-overlay");
 
         // await renderPastPredictions();
-        await handlePredictionReview({ ...parameters, ...currentChosenModel });
+        await handlePredictionReview({ ...parameters, ...currentChosenModel, ...tickPredictionResult });
 
     }catch(error){
         console.log(error);
@@ -104,10 +104,7 @@ function getResultsForTick(params) {
         });
 
         let JSONResult = await result.json();
-
         let classification = JSONResult.classification;
-
-        console.log("classification: ", classification);
         resolve(classification)
     })
 }

@@ -81,17 +81,25 @@ async def get_results(
         logger.info(f"Fetching image from URL: {url}")
         
         response = requests.get(url)
-        response.raise_for_status()  # Raise an error for bad responses
+        response.raise_for_status()
         
+        content_type = response.headers.get('Content-Type')
         logger.info(f"Response status code: {response.status_code}")
-        logger.info(f"Response content type: {response.headers.get('Content-Type')}")
+        logger.info(f"Response content type: {content_type}")
         
-        if response.headers.get('Content-Type') != 'image/jpeg':
+        # Check for valid image content types
+        if content_type not in ['image/jpeg', 'image/png', 'image/svg+xml']:
             logger.error("Received non-image content")
             logger.error(f"Response content: {response.content[:100]}")  # Log first 100 bytes
             raise HTTPException(status_code=400, detail="Received non-image content")
         
-        img = Image.open(BytesIO(response.content))
+        if content_type == 'image/svg+xml':
+            # SVG handling (convert to a raster image)
+            import cairosvg
+            img = Image.open(BytesIO(cairosvg.svg2png(bytestring=response.content)))
+        else:
+            # For JPEG and PNG
+            img = Image.open(BytesIO(response.content))
         
         model_name = "../models/" + modelFilename
         result = predictWithImage(img, model_name, modelInputFeatureSize)
@@ -99,9 +107,8 @@ async def get_results(
         return {"classification": result}
 
     except Exception as e:
-        logger.error(f"Error occurred while processing: {str(e)}")  # Log the error
+        logger.error(f"Error occurred while processing: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
-
 
 if __name__ == "__main__":
     import uvicorn

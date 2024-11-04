@@ -54,7 +54,7 @@
 
                 <div class="stretch-container">
                     <div class="simple-grid">
-                        <p class="subheading">Model Accuracy</p>
+                        <p class="subheading">Accuracy</p>
                         <p class="stand-out" id="predicted-model-accuracy"></p>
                     </div>
                 </div>

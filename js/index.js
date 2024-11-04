@@ -42,7 +42,7 @@ function handlePredictionReview(data){
     predictionReviewLoader.style.display = "grid";
     imageReviewView.style.display = "none";
 
-    let { date: dateTrained, filename, accuracy, result } = data;
+    let { date: dateTrained, filename, accuracy, max_prob, predicted_class, result } = data;
 
     console.log("preview Pop up data: ", data);
 
@@ -53,10 +53,10 @@ function handlePredictionReview(data){
     let predictedModelPlaceholder = overlay.querySelector("#predicted-model-used");
     let predictedModelAccuracy = overlay.querySelector("#predicted-model-accuracy");
 
-    predictedClassPlaceholder.textContent = result;
+    predictedClassPlaceholder.textContent = predicted_class;
     predictedDatePlaceholder.textContent = dateTrained.split("T")[0];
     predictedModelPlaceholder.textContent = filename;
-    predictedModelAccuracy.textContent = accuracy + "%";
+    predictedModelAccuracy.textContent = roundUp(max_prob) + "%";
 
     setTimeout(() => {
         predictionReviewLoader.style.display = "none";
@@ -90,4 +90,10 @@ function renderModelAccuracyRow(data){
     modelAccuracyRow.appendChild(modelNameElement)
     modelAccuracyRow.appendChild(accuracyElement)
     return modelAccuracyRow;
+}
+
+function roundUp(floatingDecimal){
+    const percentageToTwoDecimalPointsMultipliedBy100 = floatingDecimal * 100 * 100;
+    const percentageToTwoDecimalPoints = Math.round(percentageToTwoDecimalPointsMultipliedBy100) / 100;
+    return percentageToTwoDecimalPoints;
 }
