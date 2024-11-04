@@ -43,14 +43,14 @@ def predict_image(model, _image, size):
         class_name = labels[i]
         classes[class_name] = round(j * 100, 2)
 
-    print("max_prob ", max_prob)
-    print("predicted_class ", predicted_class)
-    print("classes ",classes)
+    # print("max_prob ", max_prob)
+    # print("predicted_class ", predicted_class)
+    # print("classes ",classes)
 
     return {
-        max_prob,
-        predicted_class,
-        classes
+        "max_prob": max_prob,
+        "predicted_class": predicted_class,
+        "class_probabilities": classes
     }
     
 
@@ -103,11 +103,7 @@ async def get_results(
         model_name = "../models/" + modelFilename
         result = predictWithImage(img, model_name, modelInputFeatureSize)
 
-        results = {
-            "classification": result,
-        }
-
-        return results
+        return {"classification": result}
 
     except Exception as e:
         logger.error(f"Error occurred while processing: {str(e)}")  # Log the error
