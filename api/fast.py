@@ -34,18 +34,11 @@ def predict_image(model, _image, size):
     logger.info(f"Preprocessed image shape: {preprocessed_image.shape}")
 
     prediction = model.predict(preprocessed_image)
-    max_prob = np.max(prediction[0])
+    max_prob = float(np.max(prediction[0]))  # Convert to native Python float
     predicted_class = labels[np.argmax(prediction[0])]
 
-    classes = {}
-
-    for i, j in enumerate(prediction[0]):
-        class_name = labels[i]
-        classes[class_name] = round(j * 100, 2)
-
-    # print("max_prob ", max_prob)
-    # print("predicted_class ", predicted_class)
-    # print("classes ",classes)
+    # Convert probabilities to native Python float
+    classes = {labels[i]: float(round(j * 100, 2)) for i, j in enumerate(prediction[0])}
 
     return {
         "max_prob": max_prob,
