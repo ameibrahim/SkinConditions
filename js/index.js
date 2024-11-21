@@ -86,7 +86,7 @@ function handlePredictionReview(data) {
 
     for (let index = 0; index < totalStages; index++) {
       const levelElement = document.createElement("div");
-      levelElement.className = `level ${index > stage ? "" : "inactive"}`;
+      levelElement.className = `level ${index < stage ? "" : "inactive"}`;
       meterElement.append(levelElement);
     }
 
