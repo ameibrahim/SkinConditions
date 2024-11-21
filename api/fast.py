@@ -40,7 +40,7 @@ def predict_image(model, _image, size):
     # Convert probabilities to native Python float
     classes = {labels[i]: float(round(j * 100, 2)) for i, j in enumerate(prediction[0])}
 
-    stages_model = load_model('stages.keras')
+    stages_model = load_model('../models/stages.keras')
     labels_stages = {0:'stage_1' ,1:'stage_2' ,2:'stage_3' , 3:'stage_4'}
     predicted_stage = "stage_0"
 
