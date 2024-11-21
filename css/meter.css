@@ -17,7 +17,7 @@
 }
 
 .level {
-  border-right: 1.6px solid #ff0000;
+  border-right: 1.6px solid #fff;
   counter-increment: meter-counter;
   position: relative;
 }
