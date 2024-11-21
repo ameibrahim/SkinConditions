@@ -19,7 +19,7 @@ def preprocess_image(_image, size):
     img = _image.resize((size, size), Image.Resampling.LANCZOS)
     img_array = image.img_to_array(img, dtype=np.uint8)
     img_array = img_array / 255.0
-    img_array = np.expand_dims(img_array, axis=0)
+    img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
     return img_array
 
 def predictWithImage(_image, model_name, size):
@@ -27,12 +27,14 @@ def predictWithImage(_image, model_name, size):
     return predict_image(loaded_model, _image, size)
 
 def predict_image(model, _image, size):
-
     labels = {0: 'acne', 1: 'chickenpox', 2: 'monkeypox', 3: 'non-skin', 4: 'normal'}
-
     preprocessed_image = preprocess_image(_image, size)
-    logger.info(f"Preprocessed image shape: {preprocessed_image.shape}")
 
+    # Log preprocessed image shape
+    logger.info(f"Preprocessed image shape: {preprocessed_image.shape}")
+    assert preprocessed_image.shape == (1, size, size, 3), f"Unexpected shape: {preprocessed_image.shape}"
+
+    # Main prediction
     prediction = model.predict(preprocessed_image)
     max_prob = float(np.max(prediction[0]))  # Convert to native Python float
     predicted_class = labels[np.argmax(prediction[0])]
@@ -40,21 +42,24 @@ def predict_image(model, _image, size):
     # Convert probabilities to native Python float
     classes = {labels[i]: float(round(j * 100, 2)) for i, j in enumerate(prediction[0])}
 
+    # Load and use the stages model if necessary
     stages_model = load_model('../models/stages.keras')
-    labels_stages = {0:'stage_1' ,1:'stage_2' ,2:'stage_3' , 3:'stage_4'}
+    logger.debug(f"Stages model input shape: {stages_model.input_shape}")
+    labels_stages = {0: 'stage_1', 1: 'stage_2', 2: 'stage_3', 3: 'stage_4'}
     predicted_stage = "stage_0"
 
-    if predicted_class == 'monkeypox' :
-        c = stages_model.predict(preprocessed_image[np.newaxis, ...])
+    if predicted_class == 'monkeypox':
+        logger.debug(f"Shape for stages model prediction: {preprocessed_image.shape}")
+        # No need to add np.newaxis; preprocessed_image already has batch dimension
+        c = stages_model.predict(preprocessed_image)
         predicted_stage = labels_stages[np.argmax(c[0])]
 
     return {
         "max_prob": max_prob,
         "predicted_class": predicted_class,
         "class_probabilities": classes,
-        "predicted_stage" : predicted_stage
+        "predicted_stage": predicted_stage
     }
-    
 
 # Create FastAPI instance
 application = FastAPI()
