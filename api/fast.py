@@ -40,10 +40,19 @@ def predict_image(model, _image, size):
     # Convert probabilities to native Python float
     classes = {labels[i]: float(round(j * 100, 2)) for i, j in enumerate(prediction[0])}
 
+    stages_model = load_model('stages.keras')
+    labels_stages = {0:'stage_1' ,1:'stage_2' ,2:'stage_3' , 3:'stage_4'}
+    predicted_stage = "stage_0"
+
+    if predicted_class == 'monkeypox' :
+        c = stages_model.predict(preprocessed_image[np.newaxis, ...])
+        predicted_stage = labels_stages[np.argmax(c[0])]
+
     return {
         "max_prob": max_prob,
         "predicted_class": predicted_class,
-        "class_probabilities": classes
+        "class_probabilities": classes,
+        "predicted_stage" : predicted_stage
     }
     
 
