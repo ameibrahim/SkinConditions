@@ -7,7 +7,8 @@
         "../css/main.css",
         "../css/root.css",
         "../css/popup.css",
-        "../css/spinkit.css"
+        "../css/spinkit.css",
+        "../css/meter.css",
     );
 
     // These are for javascript files that you want

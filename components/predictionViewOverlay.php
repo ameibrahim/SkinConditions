@@ -20,7 +20,7 @@
                         </div>
                     </div>
                 </div>
-        
+
                 <img class="image-review-view" style="display:none;" alt="">
             </div>
 
@@ -35,6 +35,15 @@
                     <div class="simple-grid">
                         <p class="subheading">Predicted Class</p>
                         <p class="stand-out" id="predicted-class-placeholder"></p>
+                    </div>
+
+                    <div class="stages-container">
+                        <!-- <div class="meter">
+                            <div class="level"></div>
+                            <div class="level inactive"></div>
+                            <div class="level inactive"></div>
+                            <div class="level inactive"></div>
+                        </div> -->
                     </div>
                 </div>
 
@@ -59,9 +68,9 @@
                     </div>
                 </div>
 
-                
+
             </div>
-            
+
         </div>
 
         <!-- <div class="loader-view predict-loader">

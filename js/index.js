@@ -42,7 +42,7 @@ function handlePredictionReview(data){
     predictionReviewLoader.style.display = "grid";
     imageReviewView.style.display = "none";
 
-    let { date: dateTrained, filename, accuracy, max_prob, predicted_class, result } = data;
+    let { date: dateTrained, filename, accuracy, max_prob, predicted_class, result, predicted_stage } = data;
 
     console.log("preview Pop up data: ", data);
 
@@ -52,6 +52,30 @@ function handlePredictionReview(data){
     let predictedDatePlaceholder = overlay.querySelector("#predicted-date-placeholder");
     let predictedModelPlaceholder = overlay.querySelector("#predicted-model-used");
     let predictedModelAccuracy = overlay.querySelector("#predicted-model-accuracy");
+
+    let meterContainer = overlay.querySelector(".stages-container");
+    meterContainer.innerHTML = "";
+    let totalStages = 4;
+
+    if(predicted_stage != "stage_0"){
+        let stage = predicted_stage.split("_")[1];
+
+        const stageDetails = document.createElement("p");
+        stageDetails.textContent = `stage ${stage}`;
+        meterContainer.append(stageDetails);
+
+        const meterElement = document.createElement("div");
+        meterElement.className = "meter";
+
+        for (let index = 0; index < totalStages; index++) {
+            const levelElement = document.createElement("div");
+            levelElement.className = `level ${index > stage ? "" : "inactive"}`;      
+            meterElement.append(levelElement);
+        }
+
+        meterContainer.append(meterContainer);
+
+    }
 
     predictedClassPlaceholder.textContent = predicted_class;
     predictedDatePlaceholder.textContent = dateTrained.split("T")[0];

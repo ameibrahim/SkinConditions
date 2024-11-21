@@ -24,7 +24,7 @@
     overflow-x: hidden;
     top: 0px;
     left: 0px;
-    display: none;
+    display: grid;
     place-items: center;
     z-index: 10;
     
