@@ -46,7 +46,8 @@
                         </div> -->
                     </div>
 
-                    <div class="button change-prediction-button" onclick="openPopup('.change-prediciton-overlay')">Change Prediction</div>
+                    <div class="button change-prediction-button" onclick="openPopup('.change-prediction-overlay')">
+                        Change Prediction</div>
                 </div>
 
                 <div class="stretch-container">
