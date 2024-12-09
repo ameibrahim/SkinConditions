@@ -1,6 +1,6 @@
 <?php
 
-include "../databaseConnection.php";
+include "databaseConnection.php";
 
 $conn = OpenConnection();
 
