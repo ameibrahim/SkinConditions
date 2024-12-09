@@ -1,4 +1,4 @@
-<div class="overlay change-prediction-overlay" style="display: grid;">
+<div class="overlay change-prediction-overlay">
     <div class="popup change-prediction-popup">
 
         <div class="popup-header">
