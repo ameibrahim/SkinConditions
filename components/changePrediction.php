@@ -1,4 +1,4 @@
-<div class="overlay change-prediction-overlay">
+<div class="overlay change-prediction-overlay" style="display: grid;">
     <div class="popup change-prediction-popup">
 
         <div class="popup-header">
@@ -45,7 +45,7 @@
             <p class="disclaimer">The prediction value will be changed to the new choice. The image will be used to
                 improve the model.</p>
 
-            <button class="button" type="submit" onclick="confirmPredictionChanges()">Confirm Changes</button>
+            <button class="button" type="submit" onclick="confirmPredictionChanges(event)">Confirm Changes</button>
 
         </form>
 

@@ -97,9 +97,12 @@ async function startPrediction() {
   }
 }
 
-async function confirmPredictionChanges() {
+async function confirmPredictionChanges(e) {
+
+  e.preventDefault();
+
   const predictionChanges = globalCache.get("predictionChanges");
-  if (predictionChanges.comment.length < 1) predictionChanges.comment = "None";
+  if (predictionChanges.comment && predictionChanges.comment.length < 1) predictionChanges.comment = "None";
 
   let params = createParamatersFrom(predictionChanges);
 
