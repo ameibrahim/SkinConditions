@@ -138,3 +138,52 @@ function roundUp(floatingDecimal) {
     Math.round(percentageToTwoDecimalPointsMultipliedBy100) / 100;
   return percentageToTwoDecimalPoints;
 }
+
+function handleChangePrediction(parameters) {
+  const changePredicitionOverlay = document.querySelector(
+    ".change-prediction-overlay"
+  );
+
+  const currentPredictionPlaceholder = changePredicitionOverlay.querySelector(
+    ".current-prediction-placeholder"
+  );
+
+  const changeToOptions =
+    changePredicitionOverlay.querySelector(".change-to-options");
+  changeToOptions.innerHTML = "";
+
+  const comment = changePredicitionOverlay.querySelector(".comment");
+
+  const { id, result, options, imageName } = parameters;
+  currentPredictionPlaceholder.textContent = result;
+
+  const predictionChanges = { id, imageName };
+  globalCache.put("predictionChanges", predictionChanges);
+
+  options.forEach((option) => {
+    const changeOption = document.createElement("label");
+    changeOption.className = "change-option";
+
+    const changeOptionInput = document.createElement("input");
+    changeOptionInput.type = "radio";
+    changeOptionInput.name = "radio";
+    changeOptionInput.required = "true";
+
+    changeToOptions.addEventListener("change", (e) => {
+      if (e.target && e.target.type === "radio") {
+        const selectedOption = e.target.nextSibling.textContent.trim(); // Get the label text
+        console.log("Selected option:", selectedOption);
+        predictionChanges.result = selectedOption;
+      }
+    });
+
+    changeOption.appendChild(changeOptionInput);
+    changeOption.innerHTML += option;
+    changeToOptions.appendChild(changeOption);
+  });
+
+  comment.addEventListener("input", () => {
+    predictionChanges.comment = comment.textContent;
+    console.log("happening: ", predictionChanges);
+  });
+}

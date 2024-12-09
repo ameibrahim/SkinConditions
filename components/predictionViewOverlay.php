@@ -45,6 +45,8 @@
                             <div class="level inactive"></div>
                         </div> -->
                     </div>
+
+                    <div class="button change-prediction-button" onclick="openPopup('.change-prediciton-overlay')">Change Prediction</div>
                 </div>
 
                 <div class="stretch-container">

@@ -57,5 +57,7 @@
 
     <?php include "components/predictionOverlay.php" ?>
     <?php include "components/predictionViewOverlay.php" ?>
+    <?php include "components/changePrediction.php" ?>
+
 </body>
 </html>
