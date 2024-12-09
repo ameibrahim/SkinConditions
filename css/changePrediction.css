@@ -2,6 +2,10 @@
 
 }
 
+.change-prediction-loader {
+    display: none;
+}
+
 .change-prediction-popup{
     max-width: 600px;
 }

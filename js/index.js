@@ -71,6 +71,7 @@ function handlePredictionReview(data) {
   );
 
   let meterContainer = overlay.querySelector(".stages-container");
+  meterContainer.style.display = "grid";
   meterContainer.innerHTML = "";
   let totalStages = 4;
 
@@ -140,6 +141,9 @@ function roundUp(floatingDecimal) {
 }
 
 function handleChangePrediction(parameters) {
+  const loader = document.querySelector(".change-prediction-loader");
+  loader.style.display = "none";
+
   const changePredicitionOverlay = document.querySelector(
     ".change-prediction-overlay"
   );

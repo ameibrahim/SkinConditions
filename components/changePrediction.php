@@ -49,7 +49,7 @@
 
         </form>
 
-        <!-- <div class="loader-view change-prediction-loader">
+        <div class="loader-view change-prediction-loader">
             <div>
                 <div class="sk-grid">
                     <div class="sk-grid-cube"></div>
@@ -63,6 +63,6 @@
                     <div class="sk-grid-cube"></div>
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
 </div>

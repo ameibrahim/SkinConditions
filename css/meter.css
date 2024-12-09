@@ -33,7 +33,7 @@
 
 
 .stages-container {
-    display: grid;
+    display: none;
     grid-template-columns: auto 1fr;
     grid-gap: 20px;
     align-items: center;

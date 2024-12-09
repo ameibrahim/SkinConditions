@@ -98,11 +98,13 @@ async function startPrediction() {
 }
 
 async function confirmPredictionChanges(e) {
-
   e.preventDefault();
+  const loader = document.querySelector(".change-prediction-loader");
+  loader.style.display = "grid";
 
   const predictionChanges = globalCache.get("predictionChanges");
-  if (predictionChanges.comment && predictionChanges.comment.length < 1) predictionChanges.comment = "None";
+  if (predictionChanges.comment && predictionChanges.comment.length < 1)
+    predictionChanges.comment = "None";
 
   let params = createParamatersFrom(predictionChanges);
 
@@ -128,6 +130,12 @@ async function confirmPredictionChanges(e) {
       });
     } catch (error) {
       console.log("move file error: ", error);
+    } finally {
+      setTimeout(() => {
+        loader.style.display = "grid";
+        closePopup(".change-prediction-overlay");
+        changePredictionValue(predictionChanges.result);
+      }, 1000);
     }
   }
 }
@@ -172,4 +180,12 @@ async function uploadPredictionToDatabase(params) {
   } catch (error) {
     console.log(error);
   }
+}
+
+function changePredictionValue(value) {
+  const predictedClass = document.querySelector("#predicted-class-placeholder");
+  predictedClass.textContent = value;
+
+  const stagesContainer = document.querySelector(".stages-container");
+  stagesContainer.style.display = "none";
 }
