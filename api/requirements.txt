@@ -5,3 +5,5 @@ flask_cors
 scikit-image
 scikit-learn
 joblib
+fastapi
+uvicorn

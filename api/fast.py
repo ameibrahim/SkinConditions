@@ -9,6 +9,9 @@ import requests
 from io import BytesIO
 import logging
 from starlette.middleware.base import BaseHTTPMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import JSONResponse
+import os
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)  # Set to DEBUG for more verbosity
@@ -41,9 +44,8 @@ def predict_image(model, _image, size):
 
     # Convert probabilities to native Python float
     classes = {labels[i]: float(round(j * 100, 2)) for i, j in enumerate(prediction[0])}
-
     # Load and use the stages model if necessary
-    stages_model = load_model('../models/stages.keras')
+    stages_model = load_model('/app/models/stages.keras')
     logger.debug(f"Stages model input shape: {stages_model.input_shape}")
     labels_stages = {0: 'stage_1', 1: 'stage_2', 2: 'stage_3', 3: 'stage_4'}
     predicted_stage = "stage_0"
@@ -72,6 +74,9 @@ application.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Serve static files
+application.mount("/uploads", StaticFiles(directory="/app/uploads"), name="uploads")
 
 # Logging Middleware
 class LoggingMiddleware(BaseHTTPMiddleware):
@@ -115,7 +120,7 @@ async def get_results(
             # For JPEG and PNG
             img = Image.open(BytesIO(response.content))
         
-        model_name = "../models/" + modelFilename
+        model_name = "/app/models/" + modelFilename
         result = predictWithImage(img, model_name, modelInputFeatureSize)
 
         return {"classification": result}
@@ -123,6 +128,23 @@ async def get_results(
     except Exception as e:
         logger.error(f"Error occurred while processing: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+@application.get("/test-model-access/")
+async def test_model_access():
+    model_path = "/app/models/stages.keras"
+    if os.path.exists(model_path):
+        return JSONResponse(content={"status": "success", "message": "Model file is accessible."})
+    else:
+        return JSONResponse(content={"status": "error", "message": "Model file is not accessible."})
+
+@application.get("/list-models/")
+async def list_models():
+    models_path = "/app/models"
+    if os.path.exists(models_path):
+        files = os.listdir(models_path)
+        return JSONResponse(content={"status": "success", "files": files})
+    else:
+        return JSONResponse(content={"status": "error", "message": "Models directory is not accessible."})
 
 if __name__ == "__main__":
     import uvicorn
