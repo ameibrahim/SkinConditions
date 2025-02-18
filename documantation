@@ -1,0 +1,7 @@
+curl.exe -X POST "http:///predict_base64/" \
+  -H "Content-Type: application/json" \
+  -d "{\"image_base64\": \"<YOUR_BASE64_STRING>\"}"
+
+
+
+LABEL org.opencontainers.image.source https://github.com/OWNER/REPO

@@ -106,22 +106,21 @@ logger.debug("Configured CORS middleware")
 # ------------------------------------------------------------------------------
 @app.post("/predict_base64/")
 async def predict_base64_endpoint(
-    image_base64: str = Body(..., embed=True),
-    modelInputFeatureSize: int = Body(..., embed=True)
+    image_base64: str = Body(..., embed=True)
 ):
     try:
         logger.info("Decoding base64 image from request")
         image_data = base64.b64decode(image_base64)
         img = Image.open(BytesIO(image_data))
         logger.info("Loaded image from base64 successfully")
-        # Always use 'stages.keras' for prediction
-        prediction_result = predict_with_image(img, "stages.keras", modelInputFeatureSize)
+        # Always use 'stages.keras' for prediction with a fixed size of 300
+        fixed_size = 300
+        prediction_result = predict_with_image(img, "stages.keras", fixed_size)
         logger.info(f"Prediction result: {prediction_result}")
         return {"classification": prediction_result}
     except Exception as e:
         logger.error(f"Error in /predict_base64/ endpoint: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
-    
     # ------------------------------------------------------------------------------
 @application.get("/predict/")
 async def predict_endpoint(
@@ -182,7 +181,7 @@ async def list_models():
         return JSONResponse(content={"status": "error", "message": "Models directory is not accessible."})
     
 
-    
+
 if __name__ == "__main__":
     import uvicorn
     logger.info("Starting server on 0.0.0.0:8001")

@@ -18,3 +18,4 @@ EXPOSE 8001
 
 # Command to run the application
 CMD ["uvicorn", "fast:application", "--host", "0.0.0.0", "--port", "8001", "--reload"]
+LABEL org.opencontainers.image.source https://github.com/ameibrahim/SkinConditions
