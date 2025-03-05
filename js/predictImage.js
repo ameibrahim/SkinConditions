@@ -149,7 +149,7 @@ function getResultsForTick(params) {
   return new Promise(async (resolve, reject) => {
     let hostname = isProjectRunningLocally()
       ? "127.0.0.1:7135"
-      : "skinapi.aiiot.center";
+      : "skinapis.aiiot.center";
     console.log("hostname: ", hostname);
     let url = `https://${hostname}/predict/?${params}`;
 
