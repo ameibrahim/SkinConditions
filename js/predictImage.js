@@ -151,7 +151,7 @@ function getResultsForTick(params) {
       ? "127.0.0.1:7135"
       : "skinapi.aiiot.center";
     console.log("hostname: ", hostname);
-    let url = `http://${hostname}/predict/?${params}`;
+    let url = `https://${hostname}/predict/?${params}`;
 
     // http://127.0.0.1:5000/predict/?imageName=test6.jpeg&&modelInputFeatureSize=128&&modelFilename=cnnmodel.keras&&domain=localhost:8888
 
