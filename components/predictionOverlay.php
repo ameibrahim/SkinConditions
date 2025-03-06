@@ -18,7 +18,8 @@
 
             <div class="chosen-model-wrapper">
                 <p>Predicting with:</p>
-                <div id="chosenModelWrapperTag" class="tag" onclick="openPopup('.model-choice-overlay')"></div>
+                <!-- <div id="chosenModelWrapperTag" class="tag" onclick="openPopup('.model-choice-overlay')"></div> -->
+                <div id="chosenModelWrapperTag" class="tag" style="cursor: default;"></div>
             </div>
 
             <label for="image-predict" class="image-upload-wrapper">

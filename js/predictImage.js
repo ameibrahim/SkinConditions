@@ -186,6 +186,6 @@ function changePredictionValue(value) {
   const predictedClass = document.querySelector("#predicted-class-placeholder");
   predictedClass.textContent = value;
 
-  const stagesContainer = document.querySelector(".stages-container");
-  stagesContainer.style.display = "none";
+  // const stagesContainer = document.querySelector(".stages-container");
+  // stagesContainer.style.display = "none";
 }

@@ -57,19 +57,19 @@
                     </div>
                 </div>
 
-                <div class="stretch-container">
+                <!-- <div class="stretch-container">
                     <div class="simple-grid">
                         <p class="subheading">Model Used</p>
                         <p class="stand-out" id="predicted-model-used"></p>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="stretch-container">
+                <!-- <div class="stretch-container">
                     <div class="simple-grid">
                         <p class="subheading">Accuracy</p>
                         <p class="stand-out" id="predicted-model-accuracy"></p>
                     </div>
-                </div>
+                </div> -->
 
 
             </div>

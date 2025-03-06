@@ -1,193 +1,196 @@
 function renderPredictionElementContainer(data) {
-  const predictionElementContainer = document.createElement("div");
-  predictionElementContainer.className = "prediction-element-container";
+    const predictionElementContainer = document.createElement("div");
+    predictionElementContainer.className = "prediction-element-container";
 
-  const innerImage = document.createElement("img");
-  innerImage.src = "uploads/" + data.imageName;
+    const innerImage = document.createElement("img");
+    innerImage.src = "uploads/" + data.imageName;
 
-  const predictionsDescriptions = document.createElement("div");
-  predictionsDescriptions.className = "prediction-descriptions";
+    const predictionsDescriptions = document.createElement("div");
+    predictionsDescriptions.className = "prediction-descriptions";
 
-  const descriptionName = document.createElement("div");
-  descriptionName.className = "decription-name";
-  descriptionName.textContent = data.imageName;
+    const descriptionName = document.createElement("div");
+    descriptionName.className = "decription-name";
+    descriptionName.textContent = data.imageName;
 
-  const fileSize = document.createElement("div");
-  fileSize.className = "filesize";
-  fileSize.textContent = data.filesize;
+    const fileSize = document.createElement("div");
+    fileSize.className = "filesize";
+    fileSize.textContent = data.filesize;
 
-  const predictedClass = document.createElement("div");
-  predictedClass.className = "predicted";
-  predictedClass.textContent = data.result;
+    const predictedClass = document.createElement("div");
+    predictedClass.className = "predicted";
+    predictedClass.textContent = data.result;
 
-  predictionsDescriptions.append(descriptionName);
-  predictionsDescriptions.append(fileSize);
-  predictionsDescriptions.append(predictedClass);
+    predictionsDescriptions.append(descriptionName);
+    predictionsDescriptions.append(fileSize);
+    predictionsDescriptions.append(predictedClass);
 
-  predictionElementContainer.append(innerImage);
-  predictionElementContainer.append(predictionsDescriptions);
+    predictionElementContainer.append(innerImage);
+    predictionElementContainer.append(predictionsDescriptions);
 
-  predictionElementContainer.addEventListener("click", () =>
-    handlePredictionReview(data)
-  );
+    predictionElementContainer.addEventListener("click", () =>
+        handlePredictionReview(data)
+    );
 
-  return predictionElementContainer;
+    return predictionElementContainer;
 }
 
 function handlePredictionReview(data) {
-  const overlay = document.querySelector(".prediction-view-overlay");
-  const imageReviewView = overlay.querySelector(".image-review-view");
-  const predictionReviewLoader = overlay.querySelector(
-    ".prediction-review-loader"
-  );
-  predictionReviewLoader.style.display = "grid";
-  imageReviewView.style.display = "none";
+    const overlay = document.querySelector(".prediction-view-overlay");
+    const imageReviewView = overlay.querySelector(".image-review-view");
+    const predictionReviewLoader = overlay.querySelector(
+        ".prediction-review-loader"
+    );
+    predictionReviewLoader.style.display = "grid";
+    imageReviewView.style.display = "none";
 
-  let {
-    date: dateTrained,
-    filename,
-    accuracy,
-    max_prob,
-    predicted_class,
-    result,
-    predicted_stage,
-  } = data;
+    let {
+        date: dateTrained,
+        filename,
+        accuracy,
+        max_prob,
+        predicted_class,
+        result,
+        predicted_stage,
+    } = data;
 
-  console.log("preview Pop up data: ", data);
+    console.log("preview Pop up data: ", data);
 
-  openPopup(".prediction-view-overlay");
+    openPopup(".prediction-view-overlay");
 
-  let predictedClassPlaceholder = overlay.querySelector(
-    "#predicted-class-placeholder"
-  );
-  let predictedDatePlaceholder = overlay.querySelector(
-    "#predicted-date-placeholder"
-  );
-  let predictedModelPlaceholder = overlay.querySelector(
-    "#predicted-model-used"
-  );
-  let predictedModelAccuracy = overlay.querySelector(
-    "#predicted-model-accuracy"
-  );
+    let predictedClassPlaceholder = overlay.querySelector(
+        "#predicted-class-placeholder"
+    );
+    let predictedDatePlaceholder = overlay.querySelector(
+        "#predicted-date-placeholder"
+    );
+    // let predictedModelPlaceholder = overlay.querySelector(
+    //   "#predicted-model-used"
+    // );
+    // let predictedModelAccuracy = overlay.querySelector(
+    //   "#predicted-model-accuracy"
+    // );
 
-  let meterContainer = overlay.querySelector(".stages-container");
-  meterContainer.style.display = "grid";
-  meterContainer.innerHTML = "";
-  let totalStages = 4;
+    let meterContainer = overlay.querySelector(".stages-container");
+    meterContainer.style.display = "grid";
+    meterContainer.innerHTML = "";
+    let totalStages = 4;
 
-  if (predicted_stage != "stage_0") {
-    let stage = predicted_stage.split("_")[1];
+    if (predicted_stage != "stage_0") {
+        let stage = predicted_stage.split("_")[1];
 
-    const stageDetails = document.createElement("p");
-    stageDetails.textContent = `stage ${stage}`;
-    meterContainer.append(stageDetails);
+        const stageDetails = document.createElement("p");
+        stageDetails.textContent = `stage ${stage}`;
+        meterContainer.append(stageDetails);
 
-    const meterElement = document.createElement("div");
-    meterElement.className = "meter";
+        const meterElement = document.createElement("div");
+        meterElement.className = "meter";
 
-    for (let index = 0; index < totalStages; index++) {
-      const levelElement = document.createElement("div");
-      levelElement.className = `level ${index < stage ? "" : "inactive"}`;
-      meterElement.append(levelElement);
+        for (let index = 0; index < totalStages; index++) {
+            const levelElement = document.createElement("div");
+            levelElement.className = `level ${index < stage ? "" : "inactive"}`;
+            meterElement.append(levelElement);
+        }
+
+        // meterContainer.append(meterElement);
     }
 
-    meterContainer.append(meterElement);
-  }
+    predictedClassPlaceholder.textContent = predicted_class;
+    predictedDatePlaceholder.textContent = dateTrained.split("T")[0];
+    // predictedModelPlaceholder.textContent = filename;
+    // predictedModelAccuracy.textContent = roundUp(max_prob) + "%";
 
-  predictedClassPlaceholder.textContent = predicted_class;
-  predictedDatePlaceholder.textContent = dateTrained.split("T")[0];
-  predictedModelPlaceholder.textContent = filename;
-  predictedModelAccuracy.textContent = roundUp(max_prob) + "%";
+    if (roundUp(max_prob) < 70)
+        predictedClassPlaceholder.textContent = "Not Identified";
 
-  setTimeout(() => {
-    predictionReviewLoader.style.display = "none";
-    imageReviewView.src = "uploads/" + data.imageName;
-    imageReviewView.style.display = "grid";
-  }, 2000);
+    setTimeout(() => {
+        predictionReviewLoader.style.display = "none";
+        imageReviewView.src = "uploads/" + data.imageName;
+        imageReviewView.style.display = "grid";
+    }, 2000);
 }
 
 function renderModelAccuracyRow(data) {
-  const modelAccuracyRow = document.createElement("div");
-  modelAccuracyRow.className = "model-accuracy-wrapper";
+    const modelAccuracyRow = document.createElement("div");
+    modelAccuracyRow.className = "model-accuracy-wrapper";
 
-  const modelTypeElement = document.createElement("div");
-  modelTypeElement.className = "model-type";
-  modelTypeElement.textContent = data.type;
+    const modelTypeElement = document.createElement("div");
+    modelTypeElement.className = "model-type";
+    modelTypeElement.textContent = data.type;
 
-  const modelNameElement = document.createElement("div");
-  modelNameElement.className = "model-name";
-  modelNameElement.textContent = data.filename;
+    const modelNameElement = document.createElement("div");
+    modelNameElement.className = "model-name";
+    modelNameElement.textContent = data.filename;
 
-  const accuracyElement = document.createElement("div");
-  accuracyElement.className = "model-accuracy";
-  accuracyElement.textContent = data.accuracy + "%";
+    const accuracyElement = document.createElement("div");
+    accuracyElement.className = "model-accuracy";
+    accuracyElement.textContent = data.accuracy + "%";
 
-  modelAccuracyRow.addEventListener("click", () => {
-    // callback a new popup
-  });
+    modelAccuracyRow.addEventListener("click", () => {
+        // callback a new popup
+    });
 
-  modelAccuracyRow.appendChild(modelTypeElement);
-  modelAccuracyRow.appendChild(modelNameElement);
-  modelAccuracyRow.appendChild(accuracyElement);
-  return modelAccuracyRow;
+    modelAccuracyRow.appendChild(modelTypeElement);
+    modelAccuracyRow.appendChild(modelNameElement);
+    modelAccuracyRow.appendChild(accuracyElement);
+    return modelAccuracyRow;
 }
 
 function roundUp(floatingDecimal) {
-  const percentageToTwoDecimalPointsMultipliedBy100 =
-    floatingDecimal * 100 * 100;
-  const percentageToTwoDecimalPoints =
-    Math.round(percentageToTwoDecimalPointsMultipliedBy100) / 100;
-  return percentageToTwoDecimalPoints;
+    const percentageToTwoDecimalPointsMultipliedBy100 =
+        floatingDecimal * 100 * 100;
+    const percentageToTwoDecimalPoints =
+        Math.round(percentageToTwoDecimalPointsMultipliedBy100) / 100;
+    return percentageToTwoDecimalPoints;
 }
 
 function handleChangePrediction(parameters) {
-  const loader = document.querySelector(".change-prediction-loader");
-  loader.style.display = "none";
+    const loader = document.querySelector(".change-prediction-loader");
+    loader.style.display = "none";
 
-  const changePredicitionOverlay = document.querySelector(
-    ".change-prediction-overlay"
-  );
+    const changePredicitionOverlay = document.querySelector(
+        ".change-prediction-overlay"
+    );
 
-  const currentPredictionPlaceholder = changePredicitionOverlay.querySelector(
-    ".current-prediction-placeholder"
-  );
+    const currentPredictionPlaceholder = changePredicitionOverlay.querySelector(
+        ".current-prediction-placeholder"
+    );
 
-  const changeToOptions =
-    changePredicitionOverlay.querySelector(".change-to-options");
-  changeToOptions.innerHTML = "";
+    const changeToOptions =
+        changePredicitionOverlay.querySelector(".change-to-options");
+    changeToOptions.innerHTML = "";
 
-  const comment = changePredicitionOverlay.querySelector(".comment");
+    const comment = changePredicitionOverlay.querySelector(".comment");
 
-  const { id, result, options, imageName } = parameters;
-  currentPredictionPlaceholder.textContent = result;
+    const { id, result, options, imageName } = parameters;
+    currentPredictionPlaceholder.textContent = result;
 
-  const predictionChanges = { id, imageName };
-  globalCache.put("predictionChanges", predictionChanges);
+    const predictionChanges = { id, imageName };
+    globalCache.put("predictionChanges", predictionChanges);
 
-  options.forEach((option) => {
-    const changeOption = document.createElement("label");
-    changeOption.className = "change-option";
+    options.forEach((option) => {
+        const changeOption = document.createElement("label");
+        changeOption.className = "change-option";
 
-    const changeOptionInput = document.createElement("input");
-    changeOptionInput.type = "radio";
-    changeOptionInput.name = "radio";
-    changeOptionInput.required = "true";
+        const changeOptionInput = document.createElement("input");
+        changeOptionInput.type = "radio";
+        changeOptionInput.name = "radio";
+        changeOptionInput.required = "true";
 
-    changeToOptions.addEventListener("change", (e) => {
-      if (e.target && e.target.type === "radio") {
-        const selectedOption = e.target.nextSibling.textContent.trim(); // Get the label text
-        console.log("Selected option:", selectedOption);
-        predictionChanges.result = selectedOption;
-      }
+        changeToOptions.addEventListener("change", (e) => {
+            if (e.target && e.target.type === "radio") {
+                const selectedOption = e.target.nextSibling.textContent.trim(); // Get the label text
+                console.log("Selected option:", selectedOption);
+                predictionChanges.result = selectedOption;
+            }
+        });
+
+        changeOption.appendChild(changeOptionInput);
+        changeOption.innerHTML += option;
+        changeToOptions.appendChild(changeOption);
     });
 
-    changeOption.appendChild(changeOptionInput);
-    changeOption.innerHTML += option;
-    changeToOptions.appendChild(changeOption);
-  });
-
-  comment.addEventListener("input", () => {
-    predictionChanges.comment = comment.textContent;
-    console.log("happening: ", predictionChanges);
-  });
+    comment.addEventListener("input", () => {
+        predictionChanges.comment = comment.textContent;
+        console.log("happening: ", predictionChanges);
+    });
 }

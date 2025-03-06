@@ -49,7 +49,7 @@
             </div>
         </div> -->
 
-        <div class="mini-section">
+        <!-- <div class="mini-section">
 
             <div class="mini-section-header">
                 <h2>Model Accuracies</h2>
@@ -63,14 +63,14 @@
             <div class="model-accuracies-container">
             </div>
         
-        </div>
+        </div> -->
 
     </div>
 
 
     <script>
 
-        renderModelAccuracies();
+        // renderModelAccuracies();
         // renderPastPredictions();
 
         async function renderModelAccuracies(){
