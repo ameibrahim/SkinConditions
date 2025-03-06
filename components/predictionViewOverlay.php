@@ -37,14 +37,14 @@
                         <p class="stand-out" id="predicted-class-placeholder"></p>
                     </div>
 
-                    <div class="stages-container">
+                    <!-- <div class="stages-container">
                         <!-- <div class="meter">
                             <div class="level"></div>
                             <div class="level inactive"></div>
                             <div class="level inactive"></div>
                             <div class="level inactive"></div>
                         </div> -->
-                    </div>
+                    </div> -->
 
                     <div class="button change-prediction-button" onclick="openPopup('.change-prediction-overlay')">
                         Change Prediction</div>

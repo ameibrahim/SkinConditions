@@ -63,6 +63,7 @@ function handlePredictionReview(data) {
     let predictedDatePlaceholder = overlay.querySelector(
         "#predicted-date-placeholder"
     );
+    
     // let predictedModelPlaceholder = overlay.querySelector(
     //   "#predicted-model-used"
     // );
@@ -70,26 +71,26 @@ function handlePredictionReview(data) {
     //   "#predicted-model-accuracy"
     // );
 
-    let meterContainer = overlay.querySelector(".stages-container");
-    meterContainer.style.display = "grid";
-    meterContainer.innerHTML = "";
-    let totalStages = 4;
+    // let meterContainer = overlay.querySelector(".stages-container");
+    // meterContainer.style.display = "grid";
+    // meterContainer.innerHTML = "";
+    // let totalStages = 4;
 
-    if (predicted_stage != "stage_0") {
-        let stage = predicted_stage.split("_")[1];
+    // if (predicted_stage != "stage_0") {
+    //     let stage = predicted_stage.split("_")[1];
 
-        const stageDetails = document.createElement("p");
-        stageDetails.textContent = `stage ${stage}`;
-        meterContainer.append(stageDetails);
+        // const stageDetails = document.createElement("p");
+        // stageDetails.textContent = `stage ${stage}`;
+        // meterContainer.append(stageDetails);
 
-        const meterElement = document.createElement("div");
-        meterElement.className = "meter";
+        // const meterElement = document.createElement("div");
+        // meterElement.className = "meter";
 
-        for (let index = 0; index < totalStages; index++) {
-            const levelElement = document.createElement("div");
-            levelElement.className = `level ${index < stage ? "" : "inactive"}`;
-            meterElement.append(levelElement);
-        }
+        // for (let index = 0; index < totalStages; index++) {
+        //     const levelElement = document.createElement("div");
+        //     levelElement.className = `level ${index < stage ? "" : "inactive"}`;
+        //     meterElement.append(levelElement);
+        // }
 
         // meterContainer.append(meterElement);
     }
