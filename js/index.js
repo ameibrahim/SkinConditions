@@ -63,7 +63,7 @@ function handlePredictionReview(data) {
     let predictedDatePlaceholder = overlay.querySelector(
         "#predicted-date-placeholder"
     );
-    
+
     // let predictedModelPlaceholder = overlay.querySelector(
     //   "#predicted-model-used"
     // );
@@ -93,7 +93,7 @@ function handlePredictionReview(data) {
         // }
 
         // meterContainer.append(meterElement);
-    }
+    // }
 
     predictedClassPlaceholder.textContent = predicted_class;
     predictedDatePlaceholder.textContent = dateTrained.split("T")[0];
